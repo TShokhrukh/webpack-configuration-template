@@ -3,6 +3,7 @@ import { Configuration } from 'webpack'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import { envMode, isDev } from './bin/env'
+import Dotenv from 'dotenv-webpack'
 
 const configuration: Configuration = {
   target: 'node',
@@ -28,6 +29,7 @@ const configuration: Configuration = {
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
+    new Dotenv()
   ],
   mode: envMode(),
   devtool: isDev() && 'eval'
