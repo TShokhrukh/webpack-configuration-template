@@ -1,1 +1,5 @@
-# webpack-configuration-template
+# Webpack Configuration Template
+
+## Templates
+
+- react
