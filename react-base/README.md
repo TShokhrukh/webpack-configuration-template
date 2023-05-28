@@ -1,1 +1,0 @@
-# webpack config for React application
