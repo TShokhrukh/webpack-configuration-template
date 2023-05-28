@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 
 const IS_DEV = process.env.NODE_ENV === 'development'
@@ -86,6 +87,19 @@ const configuration = {
         chunkFilename: 'css/[name].[hash].chunk.css'
       })
       : false,
+    new CopyPlugin({
+      patterns: [
+        {
+          from: './public',
+          globOptions: {
+            dot: true,
+            ignore: [
+              '**.html'
+            ]
+          }
+        }
+      ]
+    }),
     new CleanWebpackPlugin()
   ].filter(Boolean),
   optimization: {
