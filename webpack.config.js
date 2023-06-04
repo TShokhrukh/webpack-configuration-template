@@ -36,7 +36,7 @@ const configuration = {
     ]
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     plugins: [
       new TsconfigPathsPlugin()
     ]
