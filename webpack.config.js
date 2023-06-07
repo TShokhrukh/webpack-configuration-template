@@ -17,7 +17,7 @@ const configuration = {
   target: 'web',
   entry: path.resolve(__dirname, 'src/index.ts'),
   mode: process.env.NODE_ENV,
-  devtool: IS_DEV ? 'eval-source-map' : false,
+  devtool: IS_DEV && 'eval-source-map',
   module: {
     rules: [
       {
@@ -81,12 +81,12 @@ const configuration = {
       extensions: ['.ts', '.tsx'],
       cache: true
     }),
-    IS_PROD
-      ? new MiniCssExtractPlugin({
+    IS_PROD && (
+      new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash].css',
         chunkFilename: 'css/[name].[hash].chunk.css'
       })
-      : false,
+    ),
     new CopyPlugin({
       patterns: [
         {
@@ -113,11 +113,21 @@ const configuration = {
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
-        vendor: {
+        vendors: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
+          name (module, chunks, cacheGroupKey) {
+            return IS_DEV ? `${cacheGroupKey}-${module.resourceResolveData.descriptionFileData.name}` : `${cacheGroupKey}.${module.buildInfo.hash}`
+          },
           chunks: 'all'
-        }
+        },
+        styles: IS_PROD && ({
+          name (module, chunks, cacheGroupKey) {
+            return `${cacheGroupKey}-${module.buildInfo.hash}`
+          },
+          type: 'css/mini-extract',
+          chunks: 'all',
+          enforce: true
+        })
       }
     }
   },
